@@ -7,7 +7,7 @@ main {
 }
 
 .rating svg {
-  color: #f8e825;
+  color: #365235;
 }
 
 .rating-text {
@@ -50,4 +50,152 @@ table th {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+}
+
+
+
+body {
+  background-color: #f3eeea; /* สีที่คุณเลือก */
+  color: #785d49; /* สีตัวอักษร default */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== PARIN DARK HEADER ===== */
+
+.parin-navbar {
+  background-color: #747C65; /* เข้ม */
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(243, 238, 234, 0.15);
+}
+
+/* Brand */
+.parin-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #f3eeea !important;
+  letter-spacing: 2px;
+  
+}
+
+/* Nav links */
+.parin-navbar .nav-link,
+.parin-navbar .dropdown-toggle {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #ded0c6 !important;
+  font-size: 0.95rem;
+  margin-left: 14px;
+}
+
+.parin-navbar .nav-link:hover {
+  color: #f3eeea !important;
+}
+
+/* Icons */
+.parin-navbar svg {
+  color: #ded0c6;
+}
+
+.parin-navbar svg:hover {
+  color: #f3eeea;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  background-color: #f3eeea;
+  border: 1px solid #ded0c6;
+}
+
+.dropdown-item {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #785d49;
+}
+
+.dropdown-item:hover {
+  background-color: #ded0c6;
+  color: #785d49;
+}
+
+/* Badge */
+.badge {
+  background-color: #a8937f !important;
+  color: #f3eeea;
+}
+
+
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif; /* คลาสสิกและหรู */
+  color: #785d49;
+  
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #785d49;
+}
+
+.home-hero {
+  background-image: 
+  linear-gradient(
+      rgba(243, 238, 234, 0.6),
+      rgba(243, 238, 234, 0.6)
+    ),
+    url('/public/images/hero-section.jpg'); /* path รูปของคุณ */
+  background-size: cover;       /* ให้รูปเต็มพื้นที่ section */
+  background-position: center;  /* จัดตำแหน่งรูปตรงกลาง */
+  padding: 60px 20px;
+  color: #785d49;               /* สีตัวอักษรให้มองเห็นบนพื้นหลัง */
+  text-align: left;
+}
+
+/* ปุ่มสีเขียว */
+.btn-primary {
+  background-color: #747C65; /* ใช้สีใน palette ที่ให้มา */
+  color: #f3eeea;
+  border: 1px solid #747C65; /* ขอบ */
+  border-radius: 8px; /* ปรับความโค้ง */
+  transition: all 0.2s ease;
+  margin-right: 16px;
+}
+
+.btn-primary:hover {
+  background-color: #5b614f;
+  color: #f3eeea;
+  border: 1px solid #5b614f; /* ขอบ */
+  
+  
+}
+
+/* ปุ่มสีขุ่น / muted */
+.btn-secondary {
+  background-color: rgba(222, 208, 198, 0.4); /* สีขุ่นโปร่งแสง */
+  color: #785d49;
+  border: 1px solid #785d49; /* ขอบ */
+  border-radius: 8px;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(222, 208, 198, 0.7);
+  color: #785d49;
+  border: 1px solid #785d49;
+}
+
+.home-about {
+  background-color: #f3eeea;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+
+.home-about-2 img {
+  max-width: 50%;
+  height: auto;
+  margin-bottom: 80px;
+  object-fit: cover;
+
 }

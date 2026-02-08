@@ -6,6 +6,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
+import SearchBox from './SearchBox';
 
 import logo from '../assets/logo.png';
 
@@ -31,23 +32,24 @@ const Header = () => {
   
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
+      <Navbar expand="md" collapseOnSelect className="parin-navbar">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>
+            <Navbar.Brand className="parin-brand">
               <img src= {logo} 
               alt="Parin Studio" 
               style={{ width: '40px', height: 'auto', marginRight: '8px' }} />
-              Parin Studio            
+              Parin Studio           
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <SearchBox />
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart/>
-                    Cart
+                    
                     {cartItems.length > 0 && (
                       <Badge pill bg="success" style={{marginLeft: '5px'}}>
                         {cartItems.reduce((a, c) => a + c.qty, 0)}
