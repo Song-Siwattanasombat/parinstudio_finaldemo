@@ -4,12 +4,13 @@ import { FaTimes } from 'react-icons/fa';
 import  Message  from '../../components/Message';
 import  Loader  from '../../components/Loader';
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice'; 
+import { Container } from 'react-bootstrap';
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   return (
-    <div>
+    <Container className="py-3">
       <h1>Orders</h1>
       { isLoading ? (
         <Loader/>
@@ -57,7 +58,7 @@ const OrderListScreen = () => {
           </tbody> 
         </Table>
       )}
-    </div>
+    </Container>
   )
 }
 

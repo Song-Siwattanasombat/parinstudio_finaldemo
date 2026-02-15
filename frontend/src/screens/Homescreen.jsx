@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Products from '../components/Products';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
+import { Container } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate.jsx';
@@ -17,7 +18,7 @@ const Homescreen = () => {
     pageNumber: page });
 
   return (
-  <>
+  <Container className="py-3"> 
     { keyword && <Link to = '/product' className='btn btn-light mb-4'>Go Back</Link> }
     {isLoading ? (
       <Loader/>
@@ -40,7 +41,7 @@ const Homescreen = () => {
         />
       </>
     )}
-  </>
+  </Container>
   );
 };
 

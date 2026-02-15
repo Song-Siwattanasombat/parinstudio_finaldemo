@@ -1,3 +1,9 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+ 
+
 main {
   min-height: 80vh;
 }
@@ -7,7 +13,7 @@ main {
 }
 
 .rating svg {
-  color: #365235;
+  color: #3e5f3c;
 }
 
 .rating-text {
@@ -55,17 +61,17 @@ table th {
 
 
 body {
-  background-color: #f3eeea; /* สีที่คุณเลือก */
-  color: #785d49; /* สีตัวอักษร default */
+  background-color: #f3eeea; 
+  color: #785d49; 
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-/* ===== PARIN DARK HEADER ===== */
+/* dark header */
 
 .parin-navbar {
-  background-color: #747C65; /* เข้ม */
+  background-color: #40583f;
   padding: 14px 0;
   border-bottom: 1px solid rgba(243, 238, 234, 0.15);
 }
@@ -127,7 +133,7 @@ body {
 
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif; /* คลาสสิกและหรู */
+  font-family: 'Playfair Display', serif; 
   color: #785d49;
   
 }
@@ -138,51 +144,57 @@ body {
 }
 
 .home-hero {
+  min-height: 80vh;
   background-image: 
   linear-gradient(
-      rgba(243, 238, 234, 0.6),
-      rgba(243, 238, 234, 0.6)
+    to right,
+      rgba(243, 238, 234, 0.7),
+      rgba(243, 238, 234, 0)
     ),
-    url('/public/images/hero-section.jpg'); /* path รูปของคุณ */
-  background-size: cover;       /* ให้รูปเต็มพื้นที่ section */
-  background-position: center;  /* จัดตำแหน่งรูปตรงกลาง */
+    url('/public/images/hero-section.jpg'); 
+  background-size: cover;       
+  background-position: center;  
   padding: 60px 20px;
-  color: #785d49;               /* สีตัวอักษรให้มองเห็นบนพื้นหลัง */
+  color: #785d49;               
   text-align: left;
 }
 
-/* ปุ่มสีเขียว */
+
 .btn-primary {
-  background-color: #747C65; /* ใช้สีใน palette ที่ให้มา */
+  background-color: #40583f; 
   color: #f3eeea;
-  border: 1px solid #747C65; /* ขอบ */
-  border-radius: 8px; /* ปรับความโค้ง */
+  border: 1px solid #40583f; 
+  border-radius: 8px; 
   transition: all 0.2s ease;
   margin-right: 16px;
+  width: auto; 
 }
 
 .btn-primary:hover {
-  background-color: #5b614f;
+  background-color: #2f3f2f;
   color: #f3eeea;
-  border: 1px solid #5b614f; /* ขอบ */
+  border: 1px solid #2f3f2f; 
+  width: auto; 
   
   
 }
 
-/* ปุ่มสีขุ่น / muted */
+
 .btn-secondary {
-  background-color: rgba(222, 208, 198, 0.4); /* สีขุ่นโปร่งแสง */
+  background-color: rgba(222, 208, 198, 0.1); 
   color: #785d49;
-  border: 1px solid #785d49; /* ขอบ */
+  border: 1px solid #785d49;
   border-radius: 8px;
   padding: 10px 20px;
   transition: all 0.2s ease;
+  width: auto; 
 }
 
 .btn-secondary:hover {
   background-color: rgba(222, 208, 198, 0.7);
   color: #785d49;
   border: 1px solid #785d49;
+  width: auto; 
 }
 
 .home-about {
@@ -192,10 +204,167 @@ body {
 }
 
 
-.home-about-2 img {
-  max-width: 50%;
+.home-features {
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem; /* ช่องว่างระหว่างคอลัมน์ */
+}
+
+.home-feature-image,
+.home-feature-text {
+  flex: 1 1 400px; /* กว้างขั้นต่ำ 400px, ขยายเต็มที่ */
+  max-width: 600px; /* ปรับตามดีไซน์ */
+}
+
+.home-feature-image img {
+  width: 100%;
   height: auto;
-  margin-bottom: 80px;
+  border-radius: 8px; /* ดู professional */
   object-fit: cover;
+}
+
+.home-feature-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  gap: 20px; 
+  text-align: center;
+  
+}
+
+.home-feature-text .btn,
+.home-hero .btn {
+  width: auto;          /* ขนาดพอดีกับข้อความ */
+  align-self: center;   /* จัดกลางแนวนอน */
+  padding: 10px 24px;   /* ปรับให้กว้างกำลังดี */
+  display: inline-block;
+}
+
+/* Responsive: บนมือถือให้ซ้อนคอลัมน์ */
+@media (max-width: 768px) {
+  .home-features {
+    flex-direction: column;
+  }
+
+  .home-feature-text {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+.home-services-container {
+  background-color: #f3eeea;
+  padding: 40px 20px;
+  flex-direction: column;
+  justify-content: center;   
+  align-items: center;       
+  text-align: center;
 
 }
+
+.home-services {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 คอลัมน์เท่ากัน */
+  gap: 20px; /* ช่องว่างระหว่าง service */
+  justify-items: center; /* จัดกลางแต่ละ item */
+  padding: 20px;
+  max-width: 1200px; /* กำหนด max-width ของ container */
+  margin: 0 auto; /* จัดกลางหน้า */
+}
+
+.home-service {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  min-width: 0; 
+}
+
+.home-service svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+}
+
+
+@media (max-width: 992px) {
+  .home-services {
+    grid-template-columns: 1fr; 
+  }
+}
+
+.review-features {
+  background-color: rgb(204, 204, 204);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 60px 60px;
+}
+
+.review-feature-image,
+.review-feature-text {
+  flex: 1 1 400px; /* กว้างขั้นต่ำ 400px, ขยายเต็มที่ */
+  max-width: 600px; /* ปรับตามดีไซน์ */
+}
+
+.review-feature-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; /* ดู professional */
+  object-fit: cover;
+}
+
+.review-feature-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  gap: 20px; 
+  text-align: center;  
+}
+
+
+
+.review-feature-text .btn,
+.review-hero .btn {
+  width: auto;          /* ขนาดพอดีกับข้อความ */
+  align-self: center;   /* จัดกลางแนวนอน */
+  padding: 10px 24px;   /* ปรับให้กว้างกำลังดี */
+  display: inline-block;
+}
+
+/* Responsive: บนมือถือให้ซ้อนคอลัมน์ */
+@media (max-width: 768px) {
+  .review-features {
+    flex-direction: column;
+  }
+
+  .review-feature-text {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+
+
+.icon-feature {
+  margin-bottom: 12px;
+  width: 2.5em;
+  height: 2.5em;
+  
+}
+
+.icon {
+  margin: 0px 8px;
+  width: 1.2em;
+  height: 1.2em;
+
+}
+

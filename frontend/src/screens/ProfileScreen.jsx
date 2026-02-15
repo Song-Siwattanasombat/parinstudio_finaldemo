@@ -9,6 +9,7 @@ import { FaTimes } from 'react-icons/fa';
 import { useProfileMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { useGetMyOrdersQuery } from '../slices/ordersApiSlice';
+import { Container } from 'react-bootstrap';
 
 
 
@@ -55,7 +56,9 @@ const ProfileScreen = () => {
     }
   };
 
-  return  <Row>
+  return ( 
+        <Container className="py-3">
+          <Row>
             <Col md= {3}>
               <h2>User Profile</h2>
               <Form onSubmit={submitHandler}>
@@ -152,7 +155,8 @@ const ProfileScreen = () => {
                 </Table>
               )}
             </Col>
-          </Row>;
-};
+          </Row>
+        </Container>
+)};
 
 export default ProfileScreen; 

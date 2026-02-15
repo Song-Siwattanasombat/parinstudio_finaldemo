@@ -9,6 +9,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { useGetProductDetailsQuery, useCreatedReviewMutation } from "../slices/productsApiSlice"
 import {addToCart} from '../slices/cartSlice'
+import { Container } from 'react-bootstrap';
 
 
 const ProductScreen = () => {
@@ -54,7 +55,7 @@ const ProductScreen = () => {
   }
   
   return (
-    <div>
+    <Container className="py-3">
       <Link className="btn btn-light my-3" to={'/product'}>
         Go Back
       </Link>
@@ -203,7 +204,7 @@ const ProductScreen = () => {
       ) }
 
       
-    </div>
+    </Container>
   )
 }
 

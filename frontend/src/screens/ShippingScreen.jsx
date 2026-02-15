@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import { saveShippingAddress } from '../slices/cartSlice'
 import CheckoutSteps from '../components/CheckoutSteps';
+import { Container } from 'react-bootstrap';
 
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart); 
@@ -25,56 +26,57 @@ const ShippingScreen = () => {
   };
 
   return (
-    <FormContainer>
-      <CheckoutSteps step1 step2 />
-      <h1>
-        Shipping
-      </h1>
+    <Container className="py-3">
+      <FormContainer>
+        <CheckoutSteps step1 step2 />
+        <h1>
+          Shipping
+        </h1>
 
-      <Form onSubmit={ submitHandler }>
-        <Form.Group controlId='address' className='my-2'>
-          <Form.Label>
-            Address
-          </Form.Label>  
-          <Form.Control type='text' placeholder='Enter address'
-          value= {address} onChange={(e) => setAddress(e.target.value)}>
-          </Form.Control>         
-        </Form.Group> 
+        <Form onSubmit={ submitHandler }>
+          <Form.Group controlId='address' className='my-2'>
+            <Form.Label>
+              Address
+            </Form.Label>  
+            <Form.Control type='text' placeholder='Enter address'
+            value= {address} onChange={(e) => setAddress(e.target.value)}>
+            </Form.Control>         
+          </Form.Group> 
 
-        <Form.Group controlId='city' className='my-2'>
-          <Form.Label>
-            City
-          </Form.Label>  
-          <Form.Control type='text' placeholder='Enter city'
-          value= {city} onChange={(e) => setCity(e.target.value)}>
-          </Form.Control>         
-        </Form.Group> 
+          <Form.Group controlId='city' className='my-2'>
+            <Form.Label>
+              City
+            </Form.Label>  
+            <Form.Control type='text' placeholder='Enter city'
+            value= {city} onChange={(e) => setCity(e.target.value)}>
+            </Form.Control>         
+          </Form.Group> 
 
-        <Form.Group controlId='postalCode' className='my-2'>
-          <Form.Label>
-            Postal Code
-          </Form.Label>  
-          <Form.Control type='text' placeholder='Enter Postal code'
-          value= {postalCode} onChange={(e) => setPostalCode(e.target.value)}>
-          </Form.Control>         
-        </Form.Group>
+          <Form.Group controlId='postalCode' className='my-2'>
+            <Form.Label>
+              Postal Code
+            </Form.Label>  
+            <Form.Control type='text' placeholder='Enter Postal code'
+            value= {postalCode} onChange={(e) => setPostalCode(e.target.value)}>
+            </Form.Control>         
+          </Form.Group>
 
-        <Form.Group controlId='country' className='my-2'>
-          <Form.Label>
-            Country
-          </Form.Label>  
-          <Form.Control type='text' placeholder='Enter Country'
-          value= {country} onChange={(e) => setCountry(e.target.value)}>
-          </Form.Control>         
-        </Form.Group>
+          <Form.Group controlId='country' className='my-2'>
+            <Form.Label>
+              Country
+            </Form.Label>  
+            <Form.Control type='text' placeholder='Enter Country'
+            value= {country} onChange={(e) => setCountry(e.target.value)}>
+            </Form.Control>         
+          </Form.Group>
 
-        <Button type='submit' variant='primary' className='my-2'>
-          Continue
-        </Button>
+          <Button type='submit' variant='primary' className='my-2'>
+            Continue
+          </Button>
 
-      </Form>
-    </FormContainer>
-
+        </Form>
+      </FormContainer>
+    </Container>
     
   )
 }

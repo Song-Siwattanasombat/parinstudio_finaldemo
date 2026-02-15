@@ -10,7 +10,9 @@ import {
   useDeleteProductMutation,
    } from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
+import { Container } from 'react-bootstrap';
 import Paginate from '../../components/Paginate.jsx';
+
 
 const ProductListScreen = () => {
 
@@ -48,7 +50,7 @@ const ProductListScreen = () => {
   }
     
   return (
-    <>
+    <Container className="py-3">
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>
@@ -103,7 +105,7 @@ const ProductListScreen = () => {
             <Paginate pages={data.pages} page={data.page} isAdmin={true}/>
           </>
         )}
-    </>
+    </Container>
   )
 }
 

@@ -5,6 +5,7 @@ import { Form, Button, Col } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps'
 import { savePaymentMethod } from '../slices/cartSlice';
+import { Container } from 'react-bootstrap';
 
 
 const PaymentScreen = () => {
@@ -29,6 +30,7 @@ const PaymentScreen = () => {
   }
 
   return (
+  <Container className="py-3">
     <FormContainer>
 
       <CheckoutSteps  step1 step2 step3/>
@@ -59,6 +61,7 @@ const PaymentScreen = () => {
         </div>
       
     </FormContainer> 
+  </Container>  
   )
 }
 

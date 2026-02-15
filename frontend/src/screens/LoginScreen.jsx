@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 import {useLoginMutation} from '../slices/usersApiSlice';
 import {setCredentials} from '../slices/authSlice'
 import { toast } from 'react-toastify';
+import { Container } from 'react-bootstrap';
 
 const LoginScreen = () => {
   const [ email, setEmail ] = useState('')
@@ -42,6 +43,7 @@ const LoginScreen = () => {
   };
 
   return (
+    <Container className="py-3">
     <FormContainer>
       <h1>
         Sign in
@@ -87,6 +89,7 @@ const LoginScreen = () => {
       </Row> 
 
     </FormContainer>
+  </Container>
   )
 }
 

@@ -5,6 +5,7 @@ import  Message  from '../../components/Message';
 import  Loader  from '../../components/Loader';
 import { toast } from 'react-toastify';
 import { useGetUsersQuery, useDeleteUserMutation } from '../../slices/usersApiSlice'; 
+import { Container } from 'react-bootstrap';
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
@@ -24,7 +25,7 @@ const UserListScreen = () => {
   }
 
   return (
-    <div>
+    <Container className="py-3">
       <h1>Users</h1>
       { loadingDelete && <Loader/>}
       { isLoading ? (
@@ -71,7 +72,7 @@ const UserListScreen = () => {
           </tbody> 
         </Table>
       )}
-    </div>
+    </Container>
   )
 }
 

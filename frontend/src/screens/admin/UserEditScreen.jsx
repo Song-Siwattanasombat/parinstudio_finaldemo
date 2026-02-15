@@ -5,6 +5,7 @@ import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import {toast} from 'react-toastify' ;
+import { Container } from 'react-bootstrap';
 import { 
   useUpdateUserMutation, 
   useGetUserDetailsQuery,  
@@ -57,7 +58,7 @@ const UserEditScreen = () => {
   };
 
   return (
-    <div>
+    <Container className="py-3">
       <Link to = '/admin/userlist' className='btn btn-light my-3'>
         Go Back 
       </Link>
@@ -109,7 +110,7 @@ const UserEditScreen = () => {
           </Form>
         ) }
       </FormContainer>
-    </div>
+    </Container>
   )
 };
 

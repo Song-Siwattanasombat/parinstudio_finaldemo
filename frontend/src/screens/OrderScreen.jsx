@@ -4,6 +4,7 @@ import { Row, Col, ListGroup, Image, Button, Card } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { Container } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader.jsx';
 import { 
@@ -106,11 +107,12 @@ const deliverOrderHandler = async () => {
 
 
   return isLoading ? (
+    
     <Loader/>
    ) : error ? ( 
    <Message variant='danger'/> 
   ) : (
-    <>
+    <Container className="py-3">
       <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>
@@ -243,7 +245,7 @@ const deliverOrderHandler = async () => {
               </Card>
         </Col>
       </Row>
-    </>
+    </Container>
   )
 }
 

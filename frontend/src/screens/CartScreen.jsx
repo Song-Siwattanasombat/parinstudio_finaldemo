@@ -4,6 +4,7 @@ import {Row, Col, ListGroup, Image, Form, Button, Card} from 'react-bootstrap';
 import {FaTrash} from 'react-icons/fa';
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../slices/cartSlice';
+import { Container } from 'react-bootstrap';
 
 
 
@@ -28,6 +29,7 @@ const CartScreen = () => {
 
 
   return (
+     <Container className="py-3">
     <Row>
       <Col md={8}>
         <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
@@ -98,6 +100,7 @@ const CartScreen = () => {
         </Card>  
       </Col>
     </Row>
+    </Container>
   );
 };
 
