@@ -19,7 +19,7 @@ const Home = () => {
         </p>
         <div className="hero-buttons mb-6 d-flex justify-content-left gap-3">
           <Link to="/product" className="btn btn-primary">Shop the Collection</Link>
-          <Link to="/" className="btn btn-secondary">Contact Us</Link>
+          <Link to="https://mail.google.com/mail/?view=cm&to=parin.studio25@gmail.com" className="btn btn-secondary">Contact Us</Link>
         </div>
       </section>
 

@@ -7,6 +7,7 @@ import { Container } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate.jsx';
+import Meta from '../components/Meta.jsx';
 
 const Homescreen = () => {
 
@@ -26,6 +27,7 @@ const Homescreen = () => {
       <Message variant='danger'>{error?.data?.message || error.error}</Message>
     ) : (
       <>
+        <Meta/>
         <h1>Our Products</h1>
         <Row >
           {data.products.map((product) => (

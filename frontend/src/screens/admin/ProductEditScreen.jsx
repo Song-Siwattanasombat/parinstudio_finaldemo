@@ -24,7 +24,7 @@ const ProductEditScreen = () => {
   const [countInStock, setCountInStock ] = useState (0);
   const [description, setDescription ] = useState ('');
 
-  const { data: product, isLoading, refetch, error } = 
+  const { data: product, isLoading, error } = 
   useGetProductDetailsQuery(productId); 
 
   const [ updateProduct, {isLoading: loadingUpdate }] = 
@@ -132,6 +132,7 @@ const ProductEditScreen = () => {
               ></Form.Control>
               {image && (<img src={image} alt="product" style={{ width: '100px', marginTop: '10px' }} /> )}
             </Form.Group>
+            {loadingUpload && <Loader/>}
 
              <Form.Group controlId='brand' className='my-2'>
               <Form.Label>Brand</Form.Label>

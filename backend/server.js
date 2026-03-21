@@ -23,12 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 // cookie parser middleware
 app.use(cookieParser());
 
-
-
-app.get('/', (req, res) => {
-  res.send('API is running...');
-  }); 
-
+// API routes
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
@@ -40,6 +35,12 @@ app.get('/api/config/paypal', (req,res) =>
 
 const __dirname = path.resolve(); // set __dirname to current directory
 app.use('/uploads', express.static(path.join(__dirname,'/uploads')));
+
+app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+app.get((req, res) => {
+  res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+});
 
 app.use(notFound);
 app.use(errorHandler);

@@ -10,6 +10,7 @@ import Message from '../components/Message';
 import { useGetProductDetailsQuery, useCreatedReviewMutation } from "../slices/productsApiSlice"
 import {addToCart} from '../slices/cartSlice'
 import { Container } from 'react-bootstrap';
+import Meta from '../components/Meta.jsx';
 
 
 const ProductScreen = () => {
@@ -66,7 +67,7 @@ const ProductScreen = () => {
         <Message variant='danger'>{error?.data?.message || error.error}</Message>
       ) : (
         <>
-
+        <Meta title={product.name} description={product.description} keywords={product.name}/>
 
         <Row>
         <Col md={5}>
