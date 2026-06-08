@@ -144,7 +144,7 @@ const ProductScreen = () => {
           <ListGroup variant = 'flush'>
             {product.reviews.map(review =>(
               <ListGroup.Item key={review._id}>
-                <strong>{review.username}</strong>
+                <strong>{review.name}</strong>
                 <Rating value={review.rating} />
                 <p>{review.createdAt.substring(0,10)}</p>
                 <p>{review.comment}</p>
@@ -177,7 +177,7 @@ const ProductScreen = () => {
                       <Form.Label>Comment</Form.Label>
                       <Form.Control
                         as='textarea'
-                        row='3'
+                        rows='3'
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                       ></Form.Control>

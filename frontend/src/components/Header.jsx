@@ -7,6 +7,7 @@ import {useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import SearchBox from './SearchBox';
+import { useGetSiteSettingsQuery } from '../slices/siteSettingsApiSlice';
 
 import logo from '../assets/logo.png';
 
@@ -14,6 +15,7 @@ import logo from '../assets/logo.png';
 const Header = () => {
   const  { cartItems } = useSelector((state) => state.cart);
   const  { userInfo } = useSelector((state) => state.auth);
+  const { data: siteSettings } = useGetSiteSettingsQuery();
 
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
@@ -36,10 +38,10 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand className="parin-brand">
-              <img src= {logo} 
-              alt="Parin Studio" 
+              <img src= {siteSettings?.logoImage || logo}
+              alt={siteSettings?.brandName || 'Parin Studio'}
               style={{ width: '40px', height: 'auto', marginRight: '8px' }} />
-              Parin Studio           
+              {siteSettings?.brandName || 'Parin Studio'}
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -87,6 +89,9 @@ const Header = () => {
                   </LinkContainer>
                   <LinkContainer to = '/admin/orderlist'>
                     <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to = '/admin/settings'>
+                    <NavDropdown.Item>Settings</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}

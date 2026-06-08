@@ -71,6 +71,12 @@ const orderSchema = mongoose.Schema({
     default: false,
   },
 
+  stockDeducted: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+
   paidAt : {
     type: Date,
   },

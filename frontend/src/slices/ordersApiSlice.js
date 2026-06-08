@@ -1,5 +1,5 @@
 import { apiSlice } from './apiSlice';
-import { ORDERS_URL,PAYPAL_URL } from '../constants';
+import { ORDERS_URL, PAYMENTS_URL } from '../constants';
 
 
 export const ordersApiSlice = apiSlice.injectEndpoints ({
@@ -17,19 +17,25 @@ export const ordersApiSlice = apiSlice.injectEndpoints ({
       }),
       keepUnusedDataFor: 5
     }),
-    payOrder: builder.mutation ({
-      query: ({orderId,details}) => ({
-        url: `${ORDERS_URL}/${orderId}/pay`,
-        method:'PUT',
-        body: {...details},
-      }),
-    }),
-    getPayPalClientId: builder.query ({
+    getPaymentConfig: builder.query ({
       query: () => ({
-        url: PAYPAL_URL,
+        url: PAYMENTS_URL,
       }),
       keepUnusedDataFor: 5,
-    }), 
+    }),
+    createStripeCheckoutSession: builder.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}/stripe-checkout-session`,
+        method: 'POST',
+      }),
+    }),
+    confirmStripePayment: builder.mutation({
+      query: ({ orderId, sessionId }) => ({
+        url: `${ORDERS_URL}/${orderId}/stripe-session`,
+        method: 'PUT',
+        body: { sessionId },
+      }),
+    }),
     getMyOrders: builder.query ({
       query: () => ({
         url: `${ORDERS_URL}/mine`,
@@ -40,24 +46,35 @@ export const ordersApiSlice = apiSlice.injectEndpoints ({
       query: () => ({
         url: ORDERS_URL,        
       }),
+      providesTags: ['Order'],
       keepUnusedDataFor: 5,
     }),
     deliverOrder: builder.mutation({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}/deliver`,
         method: 'PUT',
-      })
-    })
+      }),
+      invalidatesTags: ['Order'],
+    }),
+    deleteOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Order'],
+    }),
   }),
 });
 
 export const { 
   useCreateOrderMutation, 
   useGetOrderDetailsQuery,
-  usePayOrderMutation,
-  useGetPayPalClientIdQuery,
+  useGetPaymentConfigQuery,
+  useCreateStripeCheckoutSessionMutation,
+  useConfirmStripePaymentMutation,
   useGetMyOrdersQuery, 
   useGetOrdersQuery,
   useDeliverOrderMutation, 
+  useDeleteOrderMutation,
 } 
   = ordersApiSlice; 

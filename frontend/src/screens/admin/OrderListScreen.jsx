@@ -1,17 +1,32 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import {Table,Button } from 'react-bootstrap';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaTrash } from 'react-icons/fa';
 import  Message  from '../../components/Message';
 import  Loader  from '../../components/Loader';
-import { useGetOrdersQuery } from '../../slices/ordersApiSlice'; 
+import { toast } from 'react-toastify';
+import { useDeleteOrderMutation, useGetOrdersQuery } from '../../slices/ordersApiSlice';
 import { Container } from 'react-bootstrap';
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
+  const [deleteOrder, { isLoading: loadingDelete }] = useDeleteOrderMutation();
+
+  const deleteHandler = async(id) => {
+    if (window.confirm('Are you sure to delete this order?')) {
+      try {
+        await deleteOrder(id).unwrap();
+        toast.success('Order deleted');
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    }
+  };
+
   return (
     <Container className="py-3">
       <h1>Orders</h1>
+      { loadingDelete && <Loader/>}
       { isLoading ? (
         <Loader/>
       ) : error? (
@@ -51,8 +66,15 @@ const OrderListScreen = () => {
                 </td>
                 <td>
                   <LinkContainer to= {`/order/${order._id}`}>
-                    <Button variants = 'light' className='btn-sm'>Details</Button>
+                    <Button variant = 'light' className='btn-sm'>Details</Button>
                   </LinkContainer>  
+                  <Button
+                    variant='danger'
+                    className='btn-sm'
+                    onClick={() => deleteHandler(order._id)}
+                  >
+                    <FaTrash style={{color: 'white'}} />
+                  </Button>
                 </td>
               </tr>)}
           </tbody> 

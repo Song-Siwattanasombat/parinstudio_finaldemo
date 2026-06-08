@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 
+const SESSION_MAX_AGE_MS = 3 * 24 * 60 * 60 * 1000;
+
 const generateToken = (res, userId) => {
 const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-      expiresIn: '30d',
+      expiresIn: '3d',
     });
 
     // Set token in HTTP-only cookie
@@ -10,7 +12,7 @@ const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== 'development',
       sameSite: 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      maxAge: SESSION_MAX_AGE_MS,
     })
 
 }

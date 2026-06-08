@@ -17,6 +17,7 @@ import { Container } from 'react-bootstrap';
 const ProfileScreen = () => {
   const [username, setName] = useState ("");
   const [email, setEmail] = useState ("");
+  const [mobileNumber, setMobileNumber] = useState ("");
   const [password, setPassword] = useState ("");
   const [confirmPassword, setConfirmPassword] = useState ("");
 
@@ -33,8 +34,9 @@ const ProfileScreen = () => {
     if (userInfo) {
       setName (userInfo.username);
       setEmail (userInfo.email);
+      setMobileNumber (userInfo.mobileNumber || '');
     }
-  }, [ userInfo, userInfo.username, userInfo.email]);  
+  }, [ userInfo, userInfo.username, userInfo.email, userInfo.mobileNumber]);  
 
   const submitHandler = async (e) => {
     e.preventDefault ();
@@ -46,6 +48,7 @@ const ProfileScreen = () => {
           _id:userInfo._id,
           username, 
           email, 
+          mobileNumber,
           password
         }).unwrap();
         dispatch (setCredentials(res));
@@ -81,6 +84,16 @@ const ProfileScreen = () => {
                     onChange= {(e) => setEmail(e.target.value)}                  
                   ></Form.Control>
                 </Form.Group>  
+
+                <Form.Group controlId='mobileNumber' className='my-2'>
+                  <Form.Label>Mobile Number</Form.Label>
+                  <Form.Control
+                    type='tel'
+                    placeholder='Enter mobile number'
+                    value={mobileNumber}
+                    onChange= {(e) => setMobileNumber(e.target.value)}                  
+                  ></Form.Control>
+                </Form.Group>
 
                  <Form.Group controlId='password' className='my-2'>
                   <Form.Label>Password</Form.Label>
@@ -141,7 +154,7 @@ const ProfileScreen = () => {
                         </td>
                         <td>
                           {order.isDelivered
-                            ? (order.deliverAt?.substring(0,10) || 'N/A')
+                            ? (order.deliveredAt?.substring(0,10) || 'N/A')
                             : <FaTimes style={{ color:'red' }}/>}
                         </td>
                         <td>

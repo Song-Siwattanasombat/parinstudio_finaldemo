@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Button, Card } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { Container } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader.jsx';
 import { 
   useGetOrderDetailsQuery,
-  usePayOrderMutation,
-  useGetPayPalClientIdQuery,
+  useGetPaymentConfigQuery,
+  useCreateStripeCheckoutSessionMutation,
+  useConfirmStripePaymentMutation,
   useDeliverOrderMutation, 
  } from '../slices/ordersApiSlice.js'; 
 
@@ -19,6 +19,7 @@ import {
 
 const OrderScreen = () => {
 const { id: orderId } = useParams ();
+const [searchParams, setSearchParams] = useSearchParams();
 
 const { 
   data: order, 
@@ -27,81 +28,60 @@ const {
   error 
 } = useGetOrderDetailsQuery (orderId); 
 
-const [payOrder, { isLoading:loadingPay }] = usePayOrderMutation();
+const [createStripeCheckoutSession, { isLoading: loadingStripeCheckout }] =
+  useCreateStripeCheckoutSessionMutation();
+const [confirmStripePayment, { isLoading: loadingStripeConfirm }] =
+  useConfirmStripePaymentMutation();
 
 const [ deliverOrder, {isLoading: loadingDeliver} ] = useDeliverOrderMutation ();
 
-const [ {isPending}, paypalDispatch ] = usePayPalScriptReducer();
-
-const { data:paypal, isLoading:loadingPayPal, error: errorPayPal } = 
-useGetPayPalClientIdQuery();
+const { data: paymentConfig, isLoading: loadingPaymentConfig } =
+useGetPaymentConfigQuery();
 
 const { userInfo } = useSelector((state) => state.auth); 
 
-useEffect (() => {
-  if (!errorPayPal && !loadingPayPal && paypal.clientId) {
-    const loadPayPalScript = async () => {
-      paypalDispatch ({
-        type: 'resetOptions',
-        value: {
-          'client-id': paypal.clientId,
-          currency: 'AUD',
-        }
-      });
-      paypalDispatch({type: 'setLoadingStatus', value: 'pending'});
-    }
-    if (order && !order.isPaid) {
-      if (!window.paypal) {
-        loadPayPalScript();
-      }
-    }
+useEffect(() => {
+  const stripeSessionId = searchParams.get('stripe_session_id');
+
+  if (!stripeSessionId || !order || order.isPaid) {
+    return;
   }
-}, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal ]);
 
-
-function onApprove(data,actions) { 
-  return actions.order.capture().then (async function (details) {
+  const confirmPayment = async () => {
     try {
-      await payOrder({orderId, details });
+      await confirmStripePayment({ orderId, sessionId: stripeSessionId }).unwrap();
+      setSearchParams({});
       refetch();
-      toast.success('Payment successful');
+      toast.success('Stripe payment successful');
     } catch (err) {
-      toast.error(err?.data?.message || err.message);
+      toast.error(err?.data?.message || err.message || err.error);
     }
-  });
-}
-  
-async function onApproveTest() {
-  await payOrder({orderId, details:{payer: {}} });
-        refetch();
-        toast.success('Payment successful');
-}
+  };
 
-function onError(err) {
-  toast.error(err.message);
-}
+  confirmPayment();
+}, [confirmStripePayment, order, orderId, refetch, searchParams, setSearchParams]);
 
-function createOrder(data,actions) {
-  return actions.order.create ({
-    purchase_units: [
-      {
-        amount: {
-          value: order.totalPrice,
-        },
-      },
-    ],
-  }).then ((orderId) => {
-    return orderId;
-  });
-}
 
 const deliverOrderHandler = async () => {
+  if (!window.confirm('Confirm that this order has been shipped/delivered?')) {
+    return;
+  }
+
   try {
     await deliverOrder(orderId);
     refetch ();
-    toast.success('Order delivered');
+    toast.success('Order delivered and customer email sent');
   } catch (err) {
     toast.error(err?.data?.message || err.message); 
+  }
+}
+
+const stripeCheckoutHandler = async () => {
+  try {
+    const session = await createStripeCheckoutSession(orderId).unwrap();
+    window.location.href = session.url;
+  } catch (err) {
+    toast.error(err?.data?.message || err.message || err.error);
   }
 }
 
@@ -210,22 +190,27 @@ const deliverOrderHandler = async () => {
 
                   {!order.isPaid && (
                     <ListGroup.Item>
-                      {loadingPay && <Loader/>}
+                      {(loadingStripeCheckout || loadingStripeConfirm) && <Loader/>}
 
-                      {isPending ? <Loader/> : (
-                        <div>
-                          {/* <Button onClick= { onApproveTest } 
-                          style={{marginBottom:'10px'}}>
-                          Test Place Order</Button> */ }
-                          <div>
-                            <PayPalButtons
-                              createOrder={createOrder}
-                              onApprove={onApprove}
-                              onError={onError}>
-                            </PayPalButtons>
-                          </div>
-                        </div> 
+                      {paymentConfig?.stripeEnabled && paymentConfig?.stripeConfigured && (
+                        <Button
+                          type='button'
+                          className='stripe-pay-button mb-3'
+                          onClick={stripeCheckoutHandler}
+                          disabled={loadingStripeCheckout || loadingStripeConfirm}
+                        >
+                          <span>Pay securely with</span>
+                          <strong>stripe</strong>
+                        </Button>
                       )}
+
+                      {!loadingPaymentConfig &&
+                        paymentConfig?.stripeEnabled &&
+                        !paymentConfig?.stripeConfigured && (
+                          <Message variant='danger'>
+                            Stripe payment is not configured yet.
+                          </Message>
+                        )}
 
                     </ListGroup.Item>
                   )}

@@ -17,6 +17,7 @@ const UserEditScreen = () => {
 
   const [username, setName] = useState ('');
   const [email, setEmail] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
   const [isAdmin, setIsAdmin ] = useState (false);
 
 
@@ -36,6 +37,7 @@ const UserEditScreen = () => {
     if (user) {
       setName(user.username);
       setEmail(user.email);
+      setMobileNumber(user.mobileNumber || '');
       setIsAdmin(user.isAdmin);
 
 
@@ -46,7 +48,7 @@ const UserEditScreen = () => {
   const submitHandler = async (e) => {
   e.preventDefault();
   try {
-    await updateUser ({userId, username, email, isAdmin}).unwrap();
+    await updateUser ({userId, username, email, mobileNumber, isAdmin}).unwrap();
     toast.success ('User updated successfully');
     refetch();
     navigate('/admin/userlist');
@@ -86,6 +88,16 @@ const UserEditScreen = () => {
                 placeholder='Enter email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}>
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='mobileNumber' className='my-2'>
+              <Form.Label>Mobile Number</Form.Label>
+              <Form.Control
+                type='tel'
+                placeholder='Enter mobile number'
+                value={mobileNumber}
+                onChange={(e) => setMobileNumber(e.target.value)}>
               </Form.Control>
             </Form.Group>
 

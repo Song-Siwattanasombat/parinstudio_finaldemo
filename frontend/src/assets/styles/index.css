@@ -23,10 +23,10 @@ main {
 }
 
 .product-title {
-  height: 2.5em; /* Set a fixed height */
-  overflow: hidden; /* Hide overflow content */
-  text-overflow: ellipsis; /* Add ellipsis for long text */
-  white-space: nowrap; /* Prevent wrapping */
+  height: 2.5em; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
 }
 
 table td,
@@ -208,19 +208,19 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 3rem; /* ช่องว่างระหว่างคอลัมน์ */
+  gap: 3rem; 
 }
 
 .home-feature-image,
 .home-feature-text {
-  flex: 1 1 400px; /* กว้างขั้นต่ำ 400px, ขยายเต็มที่ */
-  max-width: 600px; /* ปรับตามดีไซน์ */
+  flex: 1 1 400px; 
+  max-width: 600px; 
 }
 
 .home-feature-image img {
   width: 100%;
   height: auto;
-  border-radius: 8px; /* ดู professional */
+  border-radius: 8px; 
   object-fit: cover;
 }
 
@@ -236,13 +236,13 @@ body {
 
 .home-feature-text .btn,
 .home-hero .btn {
-  width: auto;          /* ขนาดพอดีกับข้อความ */
-  align-self: center;   /* จัดกลางแนวนอน */
-  padding: 10px 24px;   /* ปรับให้กว้างกำลังดี */
+  width: auto;          
+  align-self: center;   
+  padding: 10px 24px;   
   display: inline-block;
 }
 
-/* Responsive: บนมือถือให้ซ้อนคอลัมน์ */
+
 @media (max-width: 768px) {
   .home-features {
     flex-direction: column;
@@ -266,12 +266,12 @@ body {
 
 .home-services {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 คอลัมน์เท่ากัน */
-  gap: 20px; /* ช่องว่างระหว่าง service */
-  justify-items: center; /* จัดกลางแต่ละ item */
+  grid-template-columns: repeat(3, minmax(0, 1fr)); 
+  gap: 20px; 
+  justify-items: center; 
   padding: 20px;
-  max-width: 1200px; /* กำหนด max-width ของ container */
-  margin: 0 auto; /* จัดกลางหน้า */
+  max-width: 1200px; 
+  margin: 0 auto; 
 }
 
 .home-service {
@@ -310,14 +310,14 @@ body {
 
 .review-feature-image,
 .review-feature-text {
-  flex: 1 1 400px; /* กว้างขั้นต่ำ 400px, ขยายเต็มที่ */
-  max-width: 600px; /* ปรับตามดีไซน์ */
+  flex: 1 1 400px; 
+  max-width: 600px; 
 }
 
 .review-feature-image img {
   width: 100%;
   height: auto;
-  border-radius: 8px; /* ดู professional */
+  border-radius: 8px; 
   object-fit: cover;
 }
 
@@ -334,13 +334,13 @@ body {
 
 .review-feature-text .btn,
 .review-hero .btn {
-  width: auto;          /* ขนาดพอดีกับข้อความ */
-  align-self: center;   /* จัดกลางแนวนอน */
-  padding: 10px 24px;   /* ปรับให้กว้างกำลังดี */
+  width: auto;          
+  align-self: center;   
+  padding: 10px 24px;   
   display: inline-block;
 }
 
-/* Responsive: บนมือถือให้ซ้อนคอลัมน์ */
+
 @media (max-width: 768px) {
   .review-features {
     flex-direction: column;
@@ -366,5 +366,50 @@ body {
   width: 1.2em;
   height: 1.2em;
 
+}
+
+.stripe-pay-button {
+  width: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 6px;
+  margin-right: 0;
+  padding: 10px 16px;
+  background: #635bff;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0;
+  box-shadow: 0 2px 5px rgba(50, 50, 93, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stripe-pay-button strong {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stripe-pay-button:hover,
+.stripe-pay-button:focus {
+  background: #5548f0;
+  color: #ffffff;
+  box-shadow: 0 4px 9px rgba(50, 50, 93, 0.24), 0 2px 5px rgba(0, 0, 0, 0.18);
+  margin-right: 0;
+  width: 100%;
+}
+
+.stripe-pay-button:disabled {
+  background: #a5acb8;
+  box-shadow: none;
+  margin-right: 0;
+  width: 100%;
 }
 

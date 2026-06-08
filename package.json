@@ -1,14 +1,14 @@
 {
-  "name": "20251230-parinstudio_v2",
+  "name": "parin-studio-store",
   "version": "2.0.0",
   "description": "eCommerce app with MERN stack",
-  "homepage": "https://github.com/Song-Siwattanasombat/parinstudio-demo#readme",
+  "homepage": "https://github.com/Song-Siwattanasombat/parin-studio-store#readme",
   "bugs": {
-    "url": "https://github.com/Song-Siwattanasombat/parinstudio-demo/issues"
+    "url": "https://github.com/Song-Siwattanasombat/parin-studio-store/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Song-Siwattanasombat/parinstudio-demo.git"
+    "url": "git+https://github.com/Song-Siwattanasombat/parin-studio-store.git"
   },
   "license": "MIT",
   "author": "Song S",
@@ -21,16 +21,18 @@
     "dev": "concurrently \"npm run server\" \"npm run client\" ",
     "data:import": "node backend/seeder.js",
     "data:destroy": "node backend/seeder.js -d",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend" 
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.7",
     "express": "^5.2.1",
+    "google-auth-library": "^10.7.0",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.1.2",
-    "multer": "^2.0.2"
+    "mongoose": "^9.6.3",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.10"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",

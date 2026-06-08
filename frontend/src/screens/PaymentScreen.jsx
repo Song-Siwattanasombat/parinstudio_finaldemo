@@ -9,7 +9,7 @@ import { Container } from 'react-bootstrap';
 
 
 const PaymentScreen = () => {
-  const [paymentMethod, setPaymentMethod] = useState('Paypal')
+  const [paymentMethod, setPaymentMethod] = useState('Stripe')
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,11 +43,11 @@ const PaymentScreen = () => {
               <Col>
                 <Form.Check
                   type="radio"
-                  label="Paypal or Credit Card"
-                  id="Paypal"
+                  label="Stripe - Card"
+                  id="Stripe"
                   name="paymentMethod"
-                  value="Paypal"
-                  checked={paymentMethod === 'Paypal'}
+                  value="Stripe"
+                  checked={paymentMethod === 'Stripe'}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
               </Col>              

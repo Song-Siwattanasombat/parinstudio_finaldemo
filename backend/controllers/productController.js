@@ -7,17 +7,19 @@ import Product from "../models/productModel.js";
 // @access  Public
 
 const getProducts = asyncHandler ( async (req, res) => {
-  const pageSize = process.env.PAGINATION_LIMIT; // 8
-  const page = Number(req.query.pageNumber) || 1; 
+  const pageSize = Number(process.env.PAGINATION_LIMIT) || 8;
+  const page = Math.max(Number(req.query.pageNumber) || 1, 1);
 
-  const keyword = req.query.keyword ? 
-  { name: {$regex: req.query.keyword, $options: 'i'} } : {};
+  const keyword = req.query.keyword ?
+  { name: {$regex: req.query.keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i'} } : {};
 
-  const count = await Product.countDocuments({...keyword});
-
-  const products = await Product.find({...keyword})
-    .limit(pageSize)
-    .skip(pageSize * (page -1 ));
+  const [count, products] = await Promise.all([
+    Product.countDocuments({...keyword}),
+    Product.find({...keyword})
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .lean()
+  ]);
       res.json({products, page, pages:Math.ceil(count / pageSize)});
   });
 

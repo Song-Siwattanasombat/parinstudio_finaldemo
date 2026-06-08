@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -14,6 +15,11 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
 
+  mobileNumber: {
+    type: String,
+    default: '',
+  },
+
   password: {
     type: String,
     required: true,
@@ -23,7 +29,26 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
     default: false,
-  }
+  },
+
+  isEmailVerified: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+
+  emailVerificationToken: String,
+  emailVerificationExpires: Date,
+  loginVerificationToken: String,
+  loginVerificationExpires: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
+  googleId: String,
+  authProvider: {
+    type: String,
+    required: true,
+    default: 'local',
+  },
 
 }, {
   timestamps: true,
@@ -31,6 +56,42 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+userSchema.methods.createEmailVerificationToken = function() {
+  const token = crypto.randomBytes(32).toString('hex');
+
+  this.emailVerificationToken = crypto
+    .createHash('sha256')
+    .update(token)
+    .digest('hex');
+  this.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000;
+
+  return token;
+};
+
+userSchema.methods.createLoginVerificationToken = function() {
+  const token = crypto.randomBytes(32).toString('hex');
+
+  this.loginVerificationToken = crypto
+    .createHash('sha256')
+    .update(token)
+    .digest('hex');
+  this.loginVerificationExpires = Date.now() + 15 * 60 * 1000;
+
+  return token;
+};
+
+userSchema.methods.createPasswordResetToken = function() {
+  const token = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(token)
+    .digest('hex');
+  this.passwordResetExpires = Date.now() + 30 * 60 * 1000;
+
+  return token;
 };
 
 

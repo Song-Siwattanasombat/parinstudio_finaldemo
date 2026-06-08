@@ -10,12 +10,33 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body:data,       
       }),     
     }),  
+    googleLogin: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/google`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
 
     register: builder.mutation ({
       query: (data) => ({
         url: `${USERS_URL}`,
         method: 'POST',
         body: data,  
+      }),
+    }),
+    forgotPassword: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/forgot-password`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: ({ token, password }) => ({
+        url: `${USERS_URL}/reset-password/${token}`,
+        method: 'PUT',
+        body: { password },
       }),
     }),
 
@@ -32,6 +53,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data, 
       }),
       invalidatesTags: ['Users'],
+    }),
+    getProfile: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/profile`,
+      }),
+      keepUnusedDataFor: 5,
     }),
     getUsers: builder.query({
       query : () => ({
@@ -67,9 +94,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 export const { 
 
   useLoginMutation, 
+  useGoogleLoginMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
   useLogoutMutation,
   useRegisterMutation,
   useProfileMutation,
+  useLazyGetProfileQuery,
   useGetUsersQuery,
   useDeleteUserMutation, 
   useGetUserDetailsQuery,

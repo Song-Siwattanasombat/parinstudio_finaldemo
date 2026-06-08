@@ -2,7 +2,12 @@ import express from 'express';
 const router = express.Router();
 import { 
   authUser,
+    googleAuthUser,
+    verifyEmail,
+    verifyAdminLogin,
     registerUser,
+    forgotPassword,
+    resetPassword,
     logoutUser, 
     getUserProfile,
     updateUserProfile,
@@ -12,14 +17,20 @@ import {
     updateUser
  } from '../controllers/userController.js'; 
 import { protect, admin } from '../middleware/authMiddleware.js';
+import { authRateLimit } from '../middleware/rateLimitMiddleware.js';
 
 
 
-router.post('/', registerUser);                 // Register
+router.post('/', authRateLimit, registerUser);                 // Register
 router.route('/')   
       .get(protect, admin, getUsers)            // Get all users (admin)
       
-router.post('/auth', authUser);                // Login (auth)
+router.post('/auth', authRateLimit, authUser);                // Login (auth)
+router.post('/google', googleAuthUser);         // Google login
+router.post('/forgot-password', authRateLimit, forgotPassword);
+router.put('/reset-password/:token', authRateLimit, resetPassword);
+router.get('/verify-email/:token', verifyEmail);
+router.get('/auth/verify/:token', verifyAdminLogin);
 router.post('/logout', logoutUser);             // Logout
 router.route('/profile')
       .get(protect, getUserProfile)

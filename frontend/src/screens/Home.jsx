@@ -1,41 +1,81 @@
 import { Link } from 'react-router-dom';
+import { useGetSiteSettingsQuery } from '../slices/siteSettingsApiSlice';
+
+const defaultSettings = {
+  heroTitle: 'Start where you feel calm.\nWrite where you grow.',
+  heroText: 'Parin creates notebooks inspired by gardens, sunlight, and quiet moments.\nEach page is a gentle space for you to slow down, listen inward, and begin again.',
+  heroImage: '/images/hero-section.jpg',
+  aboutTitle: 'Your Personal Garden',
+  aboutText: 'More than stationery, PARIN is a quiet companion\nfor journaling, reflection, and mindful living.',
+  featureTitle: 'Why choose PARIN',
+  featureText: 'Parin was born from a love of gardens\nand the art of writing. We believe in creating\na quiet space where you can pause, reflect, and grow.',
+  featureImage: '/images/hero-section.jpg',
+  reviewTitle: 'From garden to notebook',
+  reviewText: '"Parin was born from a love of gardens\nand the art of writing. We believe in creating\na quiet space where you can pause, reflect, and grow"',
+  reviewImage: '/images/hero-section.jpg',
+  contactEmail: 'parin.studio25@gmail.com',
+};
+
+const renderLines = (text) =>
+  text.split('\n').map((line, index) => (
+    <span key={`${line}-${index}`}>
+      {line}
+      {index < text.split('\n').length - 1 && <br />}
+    </span>
+  ));
+
+const renderHeroTitle = (title) => {
+  if (title === defaultSettings.heroTitle) {
+    return (
+      <>
+        Start where you feel calm.<br />
+        Write where you <em>grow.</em>
+      </>
+    );
+  }
+
+  return renderLines(title);
+};
 
 
 const Home = () => {
-  const currentYear = new Date().getFullYear();
+  const { data: siteSettings } = useGetSiteSettingsQuery();
+  const settings = { ...defaultSettings, ...siteSettings };
 
   return (
     <div className='home-container'>
 
       {/* Hero Section */}
-      <section className="home-hero text-left">
+      <section
+        className="home-hero text-left"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(243, 238, 234, 0.7), rgba(243, 238, 234, 0)), url('${settings.heroImage}')`,
+        }}
+      >
         <h1 className="mb-4">
-          Start where you feel calm.<br />
-          Write where you <em>grow.</em>
+          {renderHeroTitle(settings.heroTitle)}
         </h1>
         <p className="mb-5">
-          Parin creates notebooks inspired by gardens, sunlight, and quiet moments.<br />
-          Each page is a gentle space for you to slow down, listen inward, and begin again.
+          {renderLines(settings.heroText)}
         </p>
         <div className="hero-buttons mb-6 d-flex justify-content-left gap-3">
           <Link to="/product" className="btn btn-primary">Shop the Collection</Link>
-          <Link to="https://mail.google.com/mail/?view=cm&to=parin.studio25@gmail.com" className="btn btn-secondary">Contact Us</Link>
+          <Link to={`https://mail.google.com/mail/?view=cm&to=${settings.contactEmail}`} className="btn btn-secondary">Contact Us</Link>
         </div>
       </section>
 
       {/* About Section */}
       <section className="home-about text-center my-2">
-        <h2>Your Personal Garden</h2>
+        <h2>{settings.aboutTitle}</h2>
         <p>
-          More than stationery, PARIN is a quiet companion<br />
-          for journaling, reflection, and mindful living.
+          {renderLines(settings.aboutText)}
         </p>
       </section>
 
       <section className="home-features d-flex flex-wrap gap-2 my-2">
       {/* Image Column */}
       <div className="home-feature home-feature-image">
-        <img src="/images/hero-section.jpg" alt="Personal Garden" />
+        <img src={settings.featureImage} alt="Personal Garden" />
       </div>
 
       {/* Text Column */}
@@ -43,11 +83,9 @@ const Home = () => {
         <svg className= 'icon-feature' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
         <path d="M1.4 1.7c.216.289.65.84 1.725 1.274 1.093.44 2.884.774 5.834.528l.37-.023c1.823-.06 3.117.598 3.956 1.579C14.16 6.082 14.5 7.41 14.5 8.5c0 .58-.032 1.285-.229 1.997q.198.248.382.54c.756 1.2 1.19 2.563 1.348 3.966a1 1 0 0 1-1.98.198c-.13-.97-.397-1.913-.868-2.77C12.173 13.386 10.565 14 8 14c-1.854 0-3.32-.544-4.45-1.435-1.125-.887-1.89-2.095-2.391-3.383C.16 6.62.16 3.646.509 1.902L.73.806zm-.05 1.39c-.146 1.609-.008 3.809.74 5.728.457 1.17 1.13 2.213 2.079 2.961.942.744 2.185 1.22 3.83 1.221 2.588 0 3.91-.66 4.609-1.445-1.789-2.46-4.121-1.213-6.342-2.68-.74-.488-1.735-1.323-1.844-2.308-.023-.214.237-.274.38-.112 1.4 1.6 3.573 1.757 5.59 2.045 1.227.215 2.21.526 3.033 1.158.058-.39.075-.782.075-1.158 0-.91-.288-1.988-.975-2.792-.626-.732-1.622-1.281-3.167-1.229l-.316.02c-3.05.253-5.01-.08-6.291-.598a5.3 5.3 0 0 1-1.4-.811"/>
         </svg>          
-        <h2>Why choose PARIN</h2>
+        <h2>{settings.featureTitle}</h2>
         <p>
-          Parin was born from a love of gardens <br/>
-          and the art of writing. We believe in creating <br/>
-          a quiet space where you can pause, reflect, and grow.
+          {renderLines(settings.featureText)}
         </p>
         <Link to="/product" className="btn btn-secondary">Shop Now</Link>
       </div>
@@ -79,7 +117,7 @@ const Home = () => {
 
           {/* Service 3 */}
           <div className="home-service d-flex flex-column align-items-center text-center gap-3 p-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-truck" viewBox="0 0 16 16">
               <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
             </svg>
             <h3>Free shipping</h3>
@@ -95,18 +133,15 @@ const Home = () => {
       {/* Text Column */}
       <div className="review-feature review-feature-text d-flex flex-column gap-2">
            
-        <h2><i>From garden to notebook</i></h2>
+        <h2><i>{settings.reviewTitle}</i></h2>
         <p>
-          "Parin was born from a love of gardens <br/>
-          and the art of writing. We believe in creating <br/>
-          a quiet space where you can pause, reflect, and grow" <br/>
-          
+          {renderLines(settings.reviewText)}
         </p>        
       </div>
 
       {/* Image Column */}
       <div className="review-feature review-feature-image">
-        <img src="/images/hero-section.jpg" alt="Personal Garden" />
+        <img src={settings.reviewImage} alt="Personal Garden" />
       </div>
 
     </section>

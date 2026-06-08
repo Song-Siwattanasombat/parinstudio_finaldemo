@@ -1,21 +1,23 @@
 import { useState, useEffect } from 'react';
 import {Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import  FormContainer  from '../components/FormContainer';
 import Loader from '../components/Loader';
 import { useRegisterMutation } from '../slices/usersApiSlice';
-import {setCredentials} from '../slices/authSlice'
 import { toast } from 'react-toastify';
 import { Container } from 'react-bootstrap';
+import Message from '../components/Message';
 
 const RegisterScreen = () => {
   const [ username, setName ] = useState('')
   const [ email, setEmail ] = useState('')
+  const [ mobileNumber, setMobileNumber ] = useState('')
   const [ password, setPassword ] = useState ('')
   const [ confirmPassword, setConfirmPassword ] = useState ('')
+  const [ verificationMessage, setVerificationMessage ] = useState('')
+  const [ verificationUrl, setVerificationUrl ] = useState('')
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [register, {isLoading}] = useRegisterMutation(); 
@@ -41,9 +43,10 @@ const RegisterScreen = () => {
       return;
     } else {
        try {
-      const res = await register({username, email, password}).unwrap();
-      dispatch(setCredentials({...res, email }));  
-      navigate(redirect);  
+      const res = await register({username, email, mobileNumber, password}).unwrap();
+      setVerificationMessage(res.message);
+      setVerificationUrl(res.verificationUrl || '');
+      toast.success(res.message);
     } catch (err) {
       toast.error(err?.data.message || err.error);
     }
@@ -56,7 +59,18 @@ const RegisterScreen = () => {
         <h1>
           Sign Up
         </h1>
-        <Form onSubmit = {submitHandler}>
+        {verificationMessage && (
+          <Message variant='success'>
+            {verificationMessage}
+            {verificationUrl && (
+              <>
+                {' '}
+                <a href={verificationUrl}>Open verification link</a>
+              </>
+            )}
+          </Message>
+        )}
+        <Form onSubmit = {submitHandler} autoComplete='off'>
 
           <Form.Group controlId = 'username' className='my-3'>
             <Form.Label>
@@ -64,6 +78,7 @@ const RegisterScreen = () => {
             </Form.Label>
             <Form.Control
               type='text'
+              autoComplete='off'
               placeholder='Enter username'
               value={username}
               onChange={(e) => setName(e.target.value)}>
@@ -76,9 +91,23 @@ const RegisterScreen = () => {
             </Form.Label>
             <Form.Control
               type='email'
+              autoComplete='off'
               placeholder='Enter email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}>
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group controlId = 'mobileNumber' className='my-3'>
+            <Form.Label>
+              Mobile Number
+            </Form.Label>
+            <Form.Control
+              type='tel'
+              autoComplete='tel'
+              placeholder='Enter mobile number'
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}>
             </Form.Control>
           </Form.Group>
 
@@ -88,6 +117,7 @@ const RegisterScreen = () => {
             </Form.Label>
             <Form.Control
               type='password'
+              autoComplete='new-password'
               placeholder='Enter password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}>
@@ -100,6 +130,7 @@ const RegisterScreen = () => {
             </Form.Label>
             <Form.Control
               type='password'
+              autoComplete='new-password'
               placeholder='Confirm password'
               value={confirmPassword}
               onChange={(e) => setConfirmPassword (e.target.value)}>

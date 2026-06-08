@@ -9,6 +9,8 @@ import userRoutes from './routes/userRoute.js';
 import orderRoutes from './routes/orderRoutes.js';
 import cookieParser from 'cookie-parser';
 import uploadRoutes from './routes/uploadRoutes.js';
+import siteSettingsRoutes from './routes/siteSettingsRoutes.js';
+import SiteSettings from './models/siteSettingsModel.js';
 
 const port = process.env.PORT || 5000;
 
@@ -28,17 +30,29 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes); 
+app.use('/api/settings', siteSettingsRoutes);
 
-app.get('/api/config/paypal', (req,res) => 
-  res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
-);
+app.get('/api/config/paypal', async (req, res) => {
+  res.send({ clientId: '' });
+});
+
+app.get('/api/config/payments', async (req, res) => {
+  const settings = await SiteSettings.findOne({}).catch(() => null);
+
+  res.send({
+    stripeEnabled: settings?.stripeEnabled !== false,
+    stripeConfigured: Boolean(settings?.stripeSecretKey || process.env.STRIPE_SECRET_KEY),
+    paypalEnabled: false,
+    paypalConfigured: false,
+  });
+});
 
 const __dirname = path.resolve(); // set __dirname to current directory
 app.use('/uploads', express.static(path.join(__dirname,'/uploads')));
 
 app.use(express.static(path.join(__dirname, '/frontend/build')));
 
-app.get((req, res) => {
+app.get('/{*splat}', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 });
 

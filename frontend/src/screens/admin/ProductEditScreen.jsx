@@ -54,7 +54,7 @@ const ProductEditScreen = () => {
 
   try {
     
-    const result = await updateProduct({
+    await updateProduct({
       productId,
       name,
       price,
