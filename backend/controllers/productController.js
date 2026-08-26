@@ -46,15 +46,15 @@ const getProductsById = asyncHandler ( async (req, res) => {
 
   const createdProduct = asyncHandler ( async (req, res) => {
    const product = new Product ({
-    name: 'sample',
+    name: 'New Notebook',
     price:0,
     user:req.user._id,
-    image:'/images/sample.jpg',
-    brand:'1b',
-    category:'1c',
+    image:'/images/logo.png',
+    brand:'Parin Studio',
+    category:'Notebook',
     countInStock:0,
     numReviews:0,
-    description:'4',
+    description:'Update this product before publishing.',
    })
   
    const createdProduct = await product.save();
