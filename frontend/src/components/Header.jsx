@@ -38,10 +38,11 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand className="parin-brand">
-              <img src= {siteSettings?.logoImage || logo}
-              alt={siteSettings?.brandName || 'Parin Studio'}
-              style={{ width: '40px', height: 'auto', marginRight: '8px' }} />
-              {siteSettings?.brandName || 'Parin Studio'}
+              <img
+                src={logo}
+                alt={siteSettings?.brandName || 'Parin Studio'}
+                style={{ width: '52px', height: '52px', objectFit: 'contain' }}
+              />
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
