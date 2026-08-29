@@ -79,6 +79,17 @@ npm start
 
 The Express server serves the built frontend at http://localhost:5000.
 
+## Deploy to Vercel
+
+Import this repository into Vercel twice:
+
+1. **API project:** keep the Root Directory at the repository root. Add the server variables from `example.env`.
+2. **Frontend project:** set the Root Directory to `frontend`. Add `REACT_APP_API_URL` with the API project's URL and optionally add `REACT_APP_GOOGLE_CLIENT_ID`.
+
+Set `CLIENT_URL` on the API project to the frontend project's production URL and set `API_URL` to the API project's own production URL. Redeploy both projects after changing environment variables.
+
+The local `uploads/` directory is not persistent on Vercel. Existing catalogue images work, but admin uploads should use an external image service before relying on them in production.
+
 ## Environment variables
 
 Use [example.env](example.env) as the complete template. Do not commit `.env` or production credentials.
